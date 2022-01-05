@@ -20,6 +20,28 @@ char nearMines (char a[][MY_MAX], int x, int y)
 		{
 			if (i == x && j == y)
 				continue;
+#include<iostream>
+using namespace std;
+#define MY_MAX 50
+
+void hideField (char a[][MY_MAX], int m, int n)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+			a[i][j] = '#';
+	}
+}
+
+char nearMines (char a[][MY_MAX], int x, int y)
+{
+	int nearbyMines = 0;
+	for (int i = x-1; i <= x+1; i++)
+	{
+		for (int j = y-1; j <= y+1; j++)
+		{
+			if (i == x && j == y)
+				continue;
 			else
 			{
 				if (a[i][j] == '*')
@@ -93,9 +115,12 @@ void showField (char a[][MY_MAX], int m, int n)
 void guess(char field[][MY_MAX], char hidden[][MY_MAX], int& guess1, int& guess2, int m, int n, int& reveal)
 {
 	cin >> guess1 >> guess2;
-	while (guess1 < 0 || guess2 < 0 || guess1 >= m || guess2 >= n)
+	while (guess1 < 0 || guess2 < 0 || guess1 >= m || guess2 >= n || hidden[guess1][guess2] != '#')
 	{
-		cout << "Wrong input! Please try again: " << endl;
+		if (hidden[guess1][guess2] != '#')
+			cout << "Tile already revealed! Please try again: " << endl;
+		else
+			cout << "Wrong input! Please try again: " << endl;
 		cin >> guess1 >> guess2;
 	}
 	revealPlace(hidden, field, guess1, guess2, m, n, reveal);
